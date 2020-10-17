@@ -1,0 +1,47 @@
+version: '2'
+volumes:
+    errbot:
+        driver: rancher-nfs
+        external: true
+        driver_opts:
+            host: $RANCHER_NFS_HOST
+            exportBase: /nfs-data/service
+            onRemove: retain
+    logs-storage-volume:
+        driver: rancher-nfs
+        external: true
+        driver_opts:
+            host: $RANCHER_NFS_HOST
+            exportBase: /nfs-data/service
+            onRemove: retain
+services:
+    errbot:
+        image: $REGISTRY_URL/test/errbot:$IMAGE_TAG_VERSION
+        environment:
+            - slack_token=$SLACK_TOKEN
+            - bot_admin=$BOT_ADMIN
+            - app_env=$APP_ENV
+        stdin_open: true
+        external_links:
+            - api/ng-statement-service:ng-statement-service
+            - api/core-payment-service:core-payment-service
+            - loadbalancer/account-zuul:account-zuul
+            - loadbalancer/core-account-zuul:core-account-zuul
+            - loadbalancer/profile-zuul:profile-zuul
+        dns_search:
+            - rancher.internal
+        dns:
+            - 169.254.169.250
+        ports:
+            - 3141:3141/tcp
+        volumes:
+            - errbot:/err/data
+            - logs-storage-volume:/err/logs
+        labels:
+            io.rancher.scheduler.affinity:host_label: host.label=microservices
+            io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+            io.rancher.container.hostname_override: container_name
+            io.rancher.container.pull_image: always
+            ct.policy.channel-infra: allow
+            io.rancher.container.requested_ip: 10.42.10.231
+

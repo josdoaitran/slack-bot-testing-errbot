@@ -1,0 +1,9 @@
+[Core]
+Name = Run
+Module = run
+
+[Documentation]
+Description = This is a Run plugin with !loan
+
+[Python]
+Version = 2+
