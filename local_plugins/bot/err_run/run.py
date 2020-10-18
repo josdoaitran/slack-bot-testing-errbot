@@ -4,7 +4,7 @@ from errbot.backends.slack import SlackBackend
 
 from local_plugins.bot.command_hint import CommandHint
 
-class Loan(BotPlugin):
+class Run(BotPlugin):
 
     @botcmd
     def run(self, msg, args):
