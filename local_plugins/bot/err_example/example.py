@@ -42,3 +42,15 @@ class Example(BotPlugin):
 
     # @botcmd()
     # def example_return_card(self, msg, data):
+
+    # @botcmd()
+    # def example_return_file(self, msg, data):
+
+    # @botcmd()
+    # def example_return_file(self, msg, data):
+    #     string_text = '[{"ID":10,"Name":"Pankaj","Role":"CEO"},' \
+    #                   '{"ID":20,"Name":"David Lee","Role":"Editor"}]'
+    #
+    #     print(StringUtils.prety_json(string_text))
+
+
